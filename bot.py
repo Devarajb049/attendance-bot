@@ -36,8 +36,8 @@ logger = logging.getLogger(__name__)
 # States for ConversationHandler
 USERNAME, PASSWORD = range(2)
 
-# Token string provided by user
-TOKEN = "8452982059:AAFufqqEzpJjZrbsdkR_kqgRrZc8VX837SM"
+# Token from environment variable (set this in Render dashboard)
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /start is issued."""

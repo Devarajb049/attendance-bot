@@ -26,17 +26,23 @@ A Telegram bot that scrapes student attendance from the [MITS IMS Portal](http:/
    python bot.py
    ```
 
-## Deploying on Render
+## Deploying on Render (Docker Method - Recommended)
 
-1. **Create a Github Repository** with these files.
-2. **Create a New Web Service** on [Render](https://render.com/).
-3. **Configure Service**:
-   - **Environment**: Python
-   - **Build Command**: `./render-build.sh` (Make sure to give it execute permissions: `chmod +x render-build.sh` before pushing to git).
-   - **Start Command**: `python bot.py`
-4. **Environment Variables**:
-   - Add `TELEGRAM_BOT_TOKEN` with your bot's token.
-   - Add `PYTHON_VERSION` (e.g., `3.10.0`).
+Since this bot uses Playwright, the easiest way to deploy on Render is using **Docker**. This avoids issues with system dependencies.
+
+1.  **Push to GitHub**: Upload all files, including `Dockerfile`.
+2.  **Create New Web Service**: Select your repository on Render.
+3.  **Environment**: Select **Docker**.
+4.  **Environment Variables**:
+    *   Add `TELEGRAM_BOT_TOKEN`: Your bot token.
+5.  **Deploy**: Render will build the image and start the bot automatically.
+
+## Deploying on Render (Manual Method)
+
+If you prefer not to use Docker:
+1.  **Build Command**: `chmod +x render-build.sh && ./render-build.sh`
+2.  **Start Command**: `python bot.py`
+3.  **Note**: This method might fail due to root permission requirements for browser dependencies. Docker is the preferred way.
 
 ## Usage
 - Open your bot in Telegram.
