@@ -210,6 +210,29 @@ def main() -> None:
     application.add_handler(CommandHandler("credentials", show_credentials))
     application.add_handler(conv_handler)
 
+    # Start a dummy HTTP server in a background thread to satisfy Render's port binding requirement
+    import threading
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    def run_dummy_server():
+        port = int(os.environ.get("PORT", 8080))
+        server_address = ('0.0.0.0', port)
+        class DummyHandler(BaseHTTPRequestHandler):
+            def do_GET(self):
+                self.send_response(200)
+                self.send_header('Content-type', 'text/plain')
+                self.end_headers()
+                self.wfile.write(b"Bot is running!")
+                
+        try:
+            httpd = HTTPServer(server_address, DummyHandler)
+            print(f"Starting dummy HTTP server on port {port}...")
+            httpd.serve_forever()
+        except Exception as e:
+            print(f"Failed to start dummy server: {e}")
+
+    threading.Thread(target=run_dummy_server, daemon=True).start()
+
     # Run the bot until the user presses Ctrl-C
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
