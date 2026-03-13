@@ -7,7 +7,10 @@ async def get_attendance(username, password):
     Scrapes attendance data from MITS IMS portal.
     """
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True) # Run in headless mode for deployment
+        browser = await p.chromium.launch(
+            headless=True,
+            args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
+        )
         # Set a realistic user agent
         context = await browser.new_context(
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
